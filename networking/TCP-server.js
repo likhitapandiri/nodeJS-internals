@@ -6,9 +6,16 @@ const net=require("net"); //built in TCP networking module
 //he net module exposes a JavaScript API. Behind that API, Node's C++ implementation uses libuv, which invokes the operating system's native socket APIs (such as socket, bind, listen, accept, send, and recv on POSIX systems, or the equivalent Winsock APIs on Windows). 
 // The OS then performs the actual networking using its TCP/IP stack.
 const server = net.createServer((socket)=>{
-    console.log("client connected");
+    console.log(
+      `client connected : ${socket.remoteAddress}:${socket.remotePort}`,
+    );
 
     socket.write("Welcome to my TCP server!\n");
+
+    socket.on("data",(data)=>{
+      console.log("client says:",data.toString());
+      socket.write(`Server recieved : ${data}`);
+    })//on event - server is waiting for bytes rom client.
 
     // socket.end(()=>{
     //   console.log("disconnected socket");
