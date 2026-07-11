@@ -14,7 +14,7 @@ const server = net.createServer((socket)=>{
 
     socket.on("data",(data)=>{
       console.log("client says:",data.toString());
-      socket.write(`Server recieved : ${data}`);
+      socket.write(`${data}`);
     })//on event - server is waiting for bytes rom client.
 
     // socket.end(()=>{

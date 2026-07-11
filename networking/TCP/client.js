@@ -20,6 +20,38 @@ client.on("connect", () => {
     client.write("Bye!\n");
   }, 2000);
 
+  for(let i=0;i<1000;i++){
+    client.write(`message ${i}\n`);
+    //write() and data are not one-to-one. TCP is a continuous stream of bytes, 
+    // and it's the application's responsibility to define and detect message boundaries.
+
+    //Because TCP only guarantees: "I'll deliver the bytes in order."
+    //It does not guarantee: "I'll preserve each write() as a separate message."
+  }
+
+  //Server says: Welcome to my TCP server!
+// Hello Server!
+// Server says: Hello
+// message 0
+// message 1
+// message 2
+// message 3
+// message 4
+// message 5
+
+// Server says: message 6
+// message 7
+// message 8
+// message 9
+// message 10
+// message 11
+// message 12
+// message 13
+// message 14
+
+//this is how the resp looked like 
+//if each req or each write is one to one then every line should be server says: message {i}
+//it just deliver bytes in order but not induvidual
 });
 
 client.on("data", (data) => {
