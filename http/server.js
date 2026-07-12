@@ -4,7 +4,7 @@ const server = http.createServer((req,res)=>{
     console.log(
       `Request: ${req.method} ${req.url} from ${req.socket.remoteAddress}:${req.socket.remotePort}`,
     );
-    res.end("Hello");
+    res.end(`Hello: ${req.url}`);
 })
 
 server.listen(3000,()=>{
