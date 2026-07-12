@@ -11,12 +11,13 @@ const agent = new http.Agent({
   keepAlive: true,
 });
 
-function makeRequest(path) {
+function makeRequest(path,method) {
     return new Promise((resolve) => {
       const req = http.request(
         {
           hostname: "localhost",
           port: 3000,
+          method:method,
           path,
           agent,
         },
@@ -48,7 +49,13 @@ function makeRequest(path) {
 
 
 (async ()=>{
-    await makeRequest("/");
-    await makeRequest("/about");
-    await makeRequest("/users");
+    await makeRequest("/", "GET");
+    await makeRequest("/about", "GET");
+    await makeRequest("/users", "GET");
+    await makeRequest("/", "POST");
+    await makeRequest("/about", "POST");
+    await makeRequest("/users", "POST");
+    await makeRequest("/", "PUT");
+    await makeRequest("/about", "PUT");
+    await makeRequest("/users", "PUT");
 })();
