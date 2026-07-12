@@ -22,6 +22,8 @@ function makeRequest(path,method) {
           agent,
         },
         (res) => {
+          console.log("Status:", res.statusCode);
+          console.log("Headers:", res.headers);
           res.on("data", (chunk) => {
             console.log(chunk.toString());
           });
