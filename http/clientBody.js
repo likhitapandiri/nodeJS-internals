@@ -1,15 +1,10 @@
 import http from "http";
 
-const users = [];
-
-for (let i = 0; i < 1000000; i++) {
-  users.push({
-    id: i,
-    name: "John",
-  });
-}
-
-const json = JSON.stringify(users);
+const json = JSON.stringify({
+  name: "John",
+  age: 22,
+  city: "Delhi",
+});
 
 const req = http.request(
   {
@@ -30,6 +25,8 @@ const req = http.request(
   },
 );
 
-req.write(json);
+for (let i = 0; i < json.length; i += 5) {
+  req.write(json.slice(i, i + 5));
+}
 
 req.end();
