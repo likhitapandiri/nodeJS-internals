@@ -1,7 +1,15 @@
 import http from "http";
 
-const data ="John";
+const users = [];
 
+for (let i = 0; i < 1000000; i++) {
+  users.push({
+    id: i,
+    name: "John",
+  });
+}
+
+const json = JSON.stringify(users);
 
 const req = http.request(
   {
@@ -9,6 +17,10 @@ const req = http.request(
     port: 3000,
     path: "/users",
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Content-Length": Buffer.byteLength(json),
+    },
   },
   (res) => {
     res.resume();
@@ -18,8 +30,6 @@ const req = http.request(
   },
 );
 
-for(let i=0;i<100;i+=1){
-req.write(`${i}:${data}\n`);
-}
+req.write(json);
 
 req.end();
