@@ -17,7 +17,7 @@ function makeRequest(path,method) {
         {
           hostname: "localhost",
           port: 3000,
-          method:method,
+          method: method,
           path,
           agent,
         },
@@ -51,13 +51,17 @@ function makeRequest(path,method) {
 
 
 (async ()=>{
-    await makeRequest("/", "GET");
-    await makeRequest("/about", "GET");
-    await makeRequest("/users", "GET");
-    await makeRequest("/", "POST");
-    await makeRequest("/about", "POST");
-    await makeRequest("/users", "POST");
-    await makeRequest("/", "PUT");
-    await makeRequest("/about", "PUT");
-    await makeRequest("/users", "PUT");
+    const path1 = "/?id=15&sort=name";
+    const path2 = "/about?id=15&sort=name";
+    const path3 = "/users?id=15&sort=name";
+
+    await makeRequest(path1, "GET");
+    await makeRequest(path2, "GET");
+    await makeRequest(path3, "GET");
+    await makeRequest(path1, "POST");
+    await makeRequest(path2, "POST");
+    await makeRequest(path3, "POST");
+    await makeRequest(path1, "PUT");
+    await makeRequest(path2, "PUT");
+    await makeRequest(path3, "PUT");
 })();
