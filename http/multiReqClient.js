@@ -12,26 +12,32 @@ const agent = new http.Agent({
 });
 
 function makeRequest(path) {
-  const req = http.request(
-    {
-      hostname: "localhost",
-      port: 3000,
-      path,
-      agent,
-    },
-    (res) => {
-      res.on("data", (chunk) => {
-        console.log(chunk.toString());
-      });
-    }
-  );
+    return new Promise((resolve) => {
+      const req = http.request(
+        {
+          hostname: "localhost",
+          port: 3000,
+          path,
+          agent,
+        },
+        (res) => {
+          res.on("data", (chunk) => {
+            console.log(chunk.toString());
+          });
 
-  req.end();
+          res.on("end", () => {
+            console.log("Finished", path);
+            resolve();
+          });
+        },
+      );
+      req.end();
+    });
 }
 
-makeRequest("/");
-makeRequest("/about");
-makeRequest("/users");
+// makeRequest("/");
+// makeRequest("/about");
+// makeRequest("/users");
 
 //in this doesn't HTTP/1.1 send them on one connection?
 // Request: GET / from ::ffff:127.0.0.1:54396
@@ -39,3 +45,10 @@ makeRequest("/users");
 // Request: GET /users from ::ffff:127.0.0.1:54404
 // server got client port diff  even with alive connection becoz 1.1 cannot process multiple reqs simultaneously on the same connection coz the socket is not idel to send the second req on the same socket 
 //so immediately as second req is getting called it creates new TCP connection
+
+
+(async ()=>{
+    await makeRequest("/");
+    await makeRequest("/about");
+    await makeRequest("/users");
+})();
