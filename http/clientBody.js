@@ -1,10 +1,16 @@
 import http from "http";
 
-const json = JSON.stringify({
-  name: "John",
-  age: 22,
-  city: "Delhi",
-});
+const users = [];
+
+
+for (let i = 0; i < 10000; i++) {
+  users.push({
+    id: i,
+    name: "John",
+  });
+}
+
+const json = JSON.stringify(users);
 
 const req = http.request(
   {
@@ -18,10 +24,18 @@ const req = http.request(
     },
   },
   (res) => {
+    console.log(res.statusCode);
+    console.log(res.headers);
     res.resume();
+    let respData="";
     res.on("data", (chunk) => {
-      console.log(chunk.toString());
+       respData+=chunk;
+       console.log("chunk recived");
     });
+
+    res.on("end",()=>{
+        console.log("response recived");
+    })
   },
 );
 

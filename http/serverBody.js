@@ -5,7 +5,7 @@ const server = http.createServer((req, res) => {
   //we can never get req.body bcoz Node doesn't know whether the body has finished arriving.
 
   req.on("data", (chunk) => {
-    console.log("Chunk received:", chunk.toString());
+    console.log("Chunk received:");
 
     body += chunk;
 
@@ -13,7 +13,7 @@ const server = http.createServer((req, res) => {
 
   req.on("end", () => {
     // console.log("Complete body:", body);
-    res.end("server received");
+    res.end(`server received: ${body}`);
   });
 });
 
